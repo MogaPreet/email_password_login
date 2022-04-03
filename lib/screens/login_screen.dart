@@ -1,4 +1,6 @@
+import 'package:email_password_login/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -50,21 +52,23 @@ class _LoginScreenState extends State<LoginScreen> {
           )),
     );
     final loginButton = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
-      child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {},
-        child: Text(
-          "Login",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
+        elevation: 5,
+        borderRadius: BorderRadius.circular(30),
+        color: Color.fromARGB(255, 100, 176, 231),
+        child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () {},
+          child: Text(
+            "Login",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -102,7 +106,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           Text("Don't have an account? "),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => registration()));
+                            },
                             child: Text(
                               "Sign up",
                               style: TextStyle(
