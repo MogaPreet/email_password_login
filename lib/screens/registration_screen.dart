@@ -16,6 +16,7 @@ class registration extends StatefulWidget {
 class _registrationState extends State<registration> {
   @override
   final _auth = FirebaseAuth.instance;
+  bool isLoading = false;
   String? errorMessage;
   final _formKey = GlobalKey<FormState>();
   final firstNameEditingController = new TextEditingController();
@@ -154,18 +155,26 @@ class _registrationState extends State<registration> {
         child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
-          onPressed: () {
+          onPressed: () async {
+            if (isLoading) return;
+            setState(() => isLoading = true);
+            await Future.delayed(Duration(seconds: 5));
+            setState(() => isLoading = false);
             signUp(emailEditingController.text, passwordEditingController.text);
           },
-          child: Text(
-            "Sign Up",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: isLoading
+              ? CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  "Sign Up",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ));
 
     return Scaffold(
@@ -244,6 +253,9 @@ class _registrationState extends State<registration> {
         switch (error.code) {
           case "invalid-email":
             errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "email-already-in-use":
+            errorMessage = "The account already exists for that email.";
             break;
           case "wrong-password":
             errorMessage = "Your password is wrong.";

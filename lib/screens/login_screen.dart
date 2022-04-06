@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //Firebasase
   final _auth = FirebaseAuth.instance;
-
+  bool isLoading = false;
   String? errorMessage;
 
   @override
@@ -84,18 +84,26 @@ class _LoginScreenState extends State<LoginScreen> {
         child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
-          onPressed: () {
+          onPressed: () async {
+            if (isLoading) return;
+            setState(() => isLoading = true);
+            await Future.delayed(Duration(seconds: 5));
+            setState(() => isLoading = false);
             signIn(emailController.text, passwordController.text);
           },
-          child: Text(
-            "Login",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: isLoading
+              ? CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  "Login",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ));
 
     return Scaffold(
