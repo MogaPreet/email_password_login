@@ -85,15 +85,17 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () async {
-            if (isLoading) return;
             setState(() => isLoading = true);
-            await Future.delayed(Duration(seconds: 5));
-            setState(() => isLoading = false);
-            signIn(emailController.text, passwordController.text);
+            await Future.delayed(Duration(seconds: 3));
+
+            setState(() {
+              signIn(emailController.text, passwordController.text);
+              isLoading = false;
+            });
           },
           child: isLoading
               ? CircularProgressIndicator(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 242, 213, 213),
                 )
               : Text(
                   "Login",
